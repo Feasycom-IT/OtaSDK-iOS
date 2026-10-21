@@ -1,0 +1,43 @@
+{
+  "sdkVersion": "1.1.2",
+  "releaseDate": "2026-10-21",
+  "branch": "DEV_JWH_Generic",
+  "commit": "3f194cfedf0509cfbb72a08534b4fbad2459acf8",
+  "configuration": "Release",
+  "minimumIOS": "15.0",
+  "deviceArchitectures": [
+    "arm64"
+  ],
+  "simulatorArchitectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "publicHeaders": [
+    "FEBluetoothSDK.h",
+    "FEPeripheral.h",
+    "FEFilter.h",
+    "FEDeviceInfo.h",
+    "FEAtCommand.h",
+    "FEOTA.h",
+    "FEFirmwareInfoModel.h",
+    "FEWiFi.h",
+    "FSCError.h",
+    "FBlueSDKPublicHeader.h"
+  ],
+  "scope": "Generic public APIs; internal model-specific OTA implementations retained",
+  "hardwareValidated": false,
+  "validation": {
+    "releaseBuild": [
+      "iphoneos-arm64",
+      "iphonesimulator-arm64-x86_64"
+    ],
+    "objcConsumerLink": [
+      "iphoneos-arm64",
+      "iphonesimulator-arm64",
+      "iphonesimulator-x86_64"
+    ],
+    "swiftModuleTypecheck": "iphonesimulator-arm64",
+    "hardwareTests": "not performed"
+  }
+}

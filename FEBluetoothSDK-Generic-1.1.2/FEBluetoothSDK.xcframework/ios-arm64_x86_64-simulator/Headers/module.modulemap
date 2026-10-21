@@ -1,0 +1,4 @@
+module FEBluetoothSDK {
+  umbrella header "FBlueSDKPublicHeader.h"
+  export *
+}
