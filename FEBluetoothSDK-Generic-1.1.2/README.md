@@ -7,7 +7,7 @@ iOS 15.0+ · Release · 2026-10-21
 
 推荐使用 / Recommended: `FEBluetoothSDK.xcframework` (Do Not Embed).
 
-`StaticLibrary/` 仅供真机 / iOS devices only.
+仅支持真机，不支持模拟器 / iOS devices only; the iOS Simulator is not supported.
 
 仅通用公开接口；内部保留专用 OTA 实现。
 Generic public APIs only; model-specific OTA implementations remain internal.

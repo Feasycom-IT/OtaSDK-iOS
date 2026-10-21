@@ -8,10 +8,6 @@
   "deviceArchitectures": [
     "arm64"
   ],
-  "simulatorArchitectures": [
-    "arm64",
-    "x86_64"
-  ],
   "xcode": "Xcode 27.1\nBuild version 27A9275",
   "publicHeaders": [
     "FEBluetoothSDK.h",
@@ -29,15 +25,12 @@
   "hardwareValidated": false,
   "validation": {
     "releaseBuild": [
-      "iphoneos-arm64",
-      "iphonesimulator-arm64-x86_64"
+      "iphoneos-arm64"
     ],
     "objcConsumerLink": [
-      "iphoneos-arm64",
-      "iphonesimulator-arm64",
-      "iphonesimulator-x86_64"
+      "iphoneos-arm64"
     ],
-    "swiftModuleTypecheck": "iphonesimulator-arm64",
     "hardwareTests": "not performed"
-  }
+  },
+  "note": "Device-only distribution: iOS Simulator is not supported."
 }

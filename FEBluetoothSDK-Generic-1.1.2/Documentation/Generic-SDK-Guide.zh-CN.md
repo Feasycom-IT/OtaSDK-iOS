@@ -8,7 +8,7 @@ SDK 版本：1.1.2 · 发行日期：2026-10-21 · 源码分支：DEV_JWH_Generi
 
 不公开 BT671、BT681、BT2094、BP106、BT976 等型号专用 OTA 接口。静态库从当前分支完整编译，内部仍保留这些实现；本包通过公开头文件限定接入范围，并非裁剪过内部符号的精简库。
 
-- `FEBluetoothSDK.xcframework`：真机 arm64，模拟器 arm64 / x86_64。
+- `FEBluetoothSDK.xcframework`：仅真机 arm64。
 - `StaticLibrary/`：仅真机的 `libFEBluetoothSDK.a` 与 `Headers/`。
 - `Documentation/`：中文及英文指南。
 - `BUILD-INFO.json`：构建信息；`SHA256SUMS`：文件校验值。
@@ -19,7 +19,7 @@ SDK 版本：1.1.2 · 发行日期：2026-10-21 · 源码分支：DEV_JWH_Generi
 
 推荐将 `FEBluetoothSDK.xcframework` 拖入工程，勾选 Copy items。加入 App target 的 Frameworks, Libraries, and Embedded Content，并选择 **Do Not Embed**（静态库）。
 
-也可加入 `StaticLibrary/libFEBluetoothSDK.a`，将 `StaticLibrary/Headers` 加入 Header Search Paths。该方式只支持真机，不可用于模拟器。两种方式二选一，避免重复符号。
+也可加入 `StaticLibrary/libFEBluetoothSDK.a`，将 `StaticLibrary/Headers` 加入 Header Search Paths。两种方式内容相同，均只支持真机，二选一，避免重复符号。
 
 链接 `Foundation.framework`、`CoreBluetooth.framework` 和 `UIKit.framework`，在 Other Linker Flags 添加 `$(inherited) -ObjC`。App 最低部署版本设为 iOS 15.0 或更高。
 
@@ -32,7 +32,7 @@ Objective-C 引入：
 
 Swift 工程在 Objective-C Bridging Header 加入上述 import；使用包中的模块定义时也可尝试 `import FEBluetoothSDK`。下文以 Objective-C 头文件签名为准。
 
-在 Info.plist 配置 `NSBluetoothAlwaysUsageDescription`，例如“用于连接设备、传输数据和升级固件”。若确实需要后台 BLE，在 Signing & Capabilities 开启 Background Modes → Uses Bluetooth LE accessories；后台执行时间仍由 iOS 管理。模拟器只能验证编译链接，BLE 联调必须使用真机。
+在 Info.plist 配置 `NSBluetoothAlwaysUsageDescription`，例如“用于连接设备、传输数据和升级固件”。若确实需要后台 BLE，在 Signing & Capabilities 开启 Background Modes → Uses Bluetooth LE accessories；后台执行时间仍由 iOS 管理。本 SDK 不支持 iOS 模拟器，编译、运行和 BLE 联调均须选择真机或 Any iOS Device (arm64) 目标。
 
 ## 3. 初始化与扫描
 
@@ -158,10 +158,10 @@ self.ota = [[FEOTA alloc] initWithPeripheral:self.device dfuData:dfuData];
 - 扫描不到：检查真机权限、蓝牙状态、广播和服务过滤，确认设备未被其他主机占用。
 - 已连接但发不出：确认 communication 模式、特征 UUID、写属性和通知订阅。
 - 重复符号：确认没有同时链接 XCFramework、旧静态库或源码。
-- Undefined symbols：检查 `-ObjC`、系统框架及当前平台 slice，重新清理构建。
+- Undefined symbols / 找不到平台：检查 `-ObjC`、系统框架，并确认运行目标是真机而非模拟器，重新清理构建。
 - OTA 立即 abort：检查连接、ota 模式、完整 DFU 格式和模组型号。
 - OTA 断连无结束回调：App 应监听业务连接状态并自行结束升级 UI；当前版本不能保证所有异常路径都有结束回调。
 
 ## 9. 验证范围
 
-本包验证真机 arm64、模拟器 arm64/x86_64 Release 编译、公开头文件编译和最小消费端链接、归档解压及校验值。未进行真实蓝牙设备的透传、AT、配网或 DFU 验证；这些功能需在目标模组固件上验收。
+本包验证真机 arm64 Release 编译、公开头文件编译和最小消费端链接、归档解压及校验值。未进行真实蓝牙设备的透传、AT、配网或 DFU 验证；这些功能需在目标模组固件上验收。

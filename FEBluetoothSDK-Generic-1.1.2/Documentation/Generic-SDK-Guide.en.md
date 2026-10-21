@@ -8,7 +8,7 @@ This package exposes BLE scanning and connections, GATT data transfer, FACP, L2C
 
 Model-specific OTA APIs for BT671, BT681, BT2094, BP106 and BT976 are not exposed. The library is compiled from the full branch and still contains their internal implementations. Public headers define the supported integration surface; this is not a symbol-stripped minimal library.
 
-- `FEBluetoothSDK.xcframework`: arm64 iOS devices; arm64 and x86_64 simulators.
+- `FEBluetoothSDK.xcframework`: arm64 iOS devices only.
 - `StaticLibrary/`: device-only `libFEBluetoothSDK.a` and `Headers/`.
 - `Documentation/`: Chinese and English guides.
 - `BUILD-INFO.json`: build metadata; `SHA256SUMS`: file checksums.
@@ -19,7 +19,7 @@ This binary requires **iOS 15.0 or later**. The source project targets iOS 11, w
 
 Recommended: drag `FEBluetoothSDK.xcframework` into the project and copy the files. Add it to the app target's Frameworks, Libraries, and Embedded Content, using **Do Not Embed** because it is static.
 
-Alternatively, link `StaticLibrary/libFEBluetoothSDK.a` and add `StaticLibrary/Headers` to Header Search Paths. This alternative supports devices only. Choose one integration method to avoid duplicate symbols.
+Alternatively, link `StaticLibrary/libFEBluetoothSDK.a` and add `StaticLibrary/Headers` to Header Search Paths. Both options contain the same device-only library. Choose one integration method to avoid duplicate symbols.
 
 Link `Foundation.framework`, `CoreBluetooth.framework` and `UIKit.framework`. Add `$(inherited) -ObjC` to Other Linker Flags. Set the app deployment target to iOS 15.0 or later.
 
@@ -30,7 +30,7 @@ Link `Foundation.framework`, `CoreBluetooth.framework` and `UIKit.framework`. Ad
 
 For Swift, add these imports to the Objective-C bridging header. The included module map may also be used with `import FEBluetoothSDK`. Examples below use the Objective-C API signatures.
 
-Add `NSBluetoothAlwaysUsageDescription` to Info.plist with a clear explanation such as “Connect to devices, transfer data and update firmware.” Enable Background Modes → Uses Bluetooth LE accessories only if required; iOS still controls background execution time. Simulators can validate compilation and linking, but BLE integration requires physical devices.
+Add `NSBluetoothAlwaysUsageDescription` to Info.plist with a clear explanation such as “Connect to devices, transfer data and update firmware.” Enable Background Modes → Uses Bluetooth LE accessories only if required; iOS still controls background execution time. This SDK does not support the iOS Simulator; build, run and test on a physical device or the Any iOS Device (arm64) destination.
 
 ## 3. Initialize and scan
 
@@ -156,10 +156,10 @@ Call `[self.sdk disconnect:self.device]` to disconnect. Stop scanning and releas
 - No scan results: check physical-device permissions, Bluetooth state, advertising, service filters and other hosts occupying the device.
 - Connected but unable to send: check communication mode, characteristic UUIDs, write properties and notification subscriptions.
 - Duplicate symbols: remove duplicate integration of the XCFramework, old static libraries or source files.
-- Undefined symbols: check `-ObjC`, required system frameworks and platform slices, then clean the build.
+- Undefined symbols / unsupported platform: check `-ObjC` and required system frameworks, make sure the run destination is a physical device rather than a simulator, then clean the build.
 - Immediate OTA abort: check the link, ota mode, complete DFU format and module compatibility.
 - No terminal callback after OTA disconnect: the app must end its own update UI; this version does not guarantee terminal callbacks for all failure paths.
 
 ## 9. Validation
 
-This distribution is checked for Release builds on device arm64 and simulator arm64/x86_64, public-header compilation, minimal consumer linking, archive extraction and checksums. BLE data transfer, AT, Wi-Fi provisioning and DFU have not been verified on physical modules and require acceptance testing against the target firmware.
+This distribution is checked for Release builds on device arm64, public-header compilation, minimal consumer linking, archive extraction and checksums. BLE data transfer, AT, Wi-Fi provisioning and DFU have not been verified on physical modules and require acceptance testing against the target firmware.

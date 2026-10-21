@@ -10,7 +10,7 @@
 | 发行日期 / Release date | 2026-10-21 |
 | 最低系统 / Minimum iOS | iOS 15.0 |
 | 真机 / Device | arm64 |
-| 模拟器 / Simulator | arm64, x86_64（仅 XCFramework / XCFramework only） |
+| 模拟器 / Simulator | 不支持 / Not supported |
 
 ## 1. 文档 / Documentation
 
@@ -21,7 +21,7 @@
 
 ```text
 FEBluetoothSDK-Generic-1.1.2/
-├── FEBluetoothSDK.xcframework/   # 推荐：真机 + 模拟器 / Recommended: device + simulator
+├── FEBluetoothSDK.xcframework/   # 推荐：仅真机 / Recommended, device only
 ├── StaticLibrary/                # 仅真机：libFEBluetoothSDK.a + Headers/ / Device only
 ├── Documentation/                # 中英文接入指南 / Guides (zh-CN, en)
 ├── BUILD-INFO.json               # 构建信息 / Build metadata
@@ -43,8 +43,8 @@ FEBluetoothSDK-Generic-1.1.2/
 #import "FBlueSDKPublicHeader.h"
 ```
 
-XCFramework 与 `StaticLibrary/` 二选一，不要同时链接。BLE 联调必须使用真机。
-Use either the XCFramework or `StaticLibrary/`, not both. BLE features must be tested on a real device.
+XCFramework 与 `StaticLibrary/` 二选一，不要同时链接。SDK 仅包含真机 arm64，**不支持 iOS 模拟器**，请使用真机编译和调试。
+Use either the XCFramework or `StaticLibrary/`, not both. The SDK contains device arm64 only and **does not support the iOS Simulator**; build and debug on a physical device.
 
 ## 4. 获取 / Download
 
